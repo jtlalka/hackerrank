@@ -14,13 +14,13 @@ public class Day6 {
             StringBuilder even = new StringBuilder();
             StringBuilder odd = new StringBuilder();
 
-            line.chars().forEach(ch -> {
-                if((even.length() + odd.length()) % 2 == 0) {
-                    even.append((char) ch);
+            for (int i = 0; i < line.length(); i++) {
+                if(i%2 == 0) {
+                    even.append(line.charAt(i));
                 } else {
-                    odd.append((char) ch);
+                    odd.append(line.charAt(i));
                 }
-            });
+            }
             System.out.println(even.append(" ").append(odd).toString());
         });
     }
