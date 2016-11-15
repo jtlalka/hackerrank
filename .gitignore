@@ -1,0 +1,19 @@
+## Mac
+.DS_Store
+
+## Linux
+*~
+
+## Windows
+Thumbs.db
+Desktop.ini
+
+## WebStorm
+.idea/*
+*.iml
+
+## NetBeans
+nbproject/*
+
+## Maven
+target/*
