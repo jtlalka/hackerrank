@@ -3,8 +3,6 @@ package net.tlalka.java.hackerrank.datastructures;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.NoSuchElementException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -49,7 +47,7 @@ public class HashMapTest {
 
         // given
         String value = "World Wide Web";
-        map.insert("WWW", value);
+        map.put("WWW", value);
 
         // when
         String result = map.get("WWW");
@@ -74,7 +72,7 @@ public class HashMapTest {
     public void testNotGetValueWithInvalidKey() {
 
         // given
-        map.insert("WWW", "World Wide Web");
+        map.put("WWW", "World Wide Web");
 
         // when
         String result = map.get("WW3");
@@ -92,7 +90,7 @@ public class HashMapTest {
         String value = "World Wide Web";
 
         // when
-        map.insert(key, value);
+        map.put(key, value);
 
         // then
         assertEquals(value, map.get(key));
@@ -106,11 +104,11 @@ public class HashMapTest {
         String key2 = "BB";
 
         // when
-        map.insert(key1, "AAA");
-        map.insert(key2, "BBB");
+        map.put(key1, "AAA");
+        map.put(key2, "BBB");
 
         // then
-        assertEquals(2, map.getSize());
+        assertEquals(2, map.size());
         assertEquals("AAA", map.get(key1));
         assertEquals("BBB", map.get(key2));
     }
@@ -119,10 +117,10 @@ public class HashMapTest {
     public void testInsertValueWithNullKey() {
 
         // when
-        map.insert(null, "World Wide Web");
+        map.put(null, "World Wide Web");
 
         // then
-        assertEquals(1, map.getSize());
+        assertEquals(1, map.size());
         assertEquals("World Wide Web", map.get(null));
     }
 
@@ -130,8 +128,8 @@ public class HashMapTest {
     public void testDeleteFirstValue() {
 
         // given
-        map.insert("WWW", "World Wide Web");
-        map.insert("BrB", "Be right Back");
+        map.put("WWW", "World Wide Web");
+        map.put("BrB", "Be right Back");
 
         // when
         map.delete("WWW");
@@ -142,19 +140,12 @@ public class HashMapTest {
         assertNotNull(map.get("BrB"));
     }
 
-    @Test(expected = NoSuchElementException.class)
-    public void testNotDeleteValueWithInvalidKey() {
-
-        // when
-        map.delete("WW3");
-    }
-
     @Test
     public void testContainsValueForKey() {
 
         // given
-        map.insert("WWW", "World Wide Web");
-        map.insert("BrB", "Be right Back");
+        map.put("WWW", "World Wide Web");
+        map.put("BrB", "Be right Back");
 
         // when
         boolean result = map.contains("BrB");
@@ -169,32 +160,31 @@ public class HashMapTest {
     public void testNotContainsValueForInvalidKey() {
 
         // given
-        map.insert("WWW", "World Wide Web");
-        map.insert("BrB", "Be right Back");
+        map.put("WWW", "World Wide Web");
+        map.put("BrB", "Be right Back");
 
         // when
         boolean result = map.contains("BrB++");
 
         // then
         assertFalse(result);
-        assertNotNull(map.get("WWW"));
-        assertNotNull(map.get("BrB"));
+        assertEquals(2, map.size());
     }
 
     @Test
     public void testConvertMapToList() {
 
         // given
-        map.insert("key1", "value1");
-        map.insert("key2", "value2");
-        map.insert("key3", "value3");
+        map.put("key1", "value1");
+        map.put("key2", "value2");
+        map.put("key3", "value3");
 
         // when
-        LinkList<String> result = map.toList();
+        LinkList<String> result = map.values();
 
         // then
         assertFalse(result.isEmpty());
-        assertEquals(3, result.getSize());
+        assertEquals(3, result.size());
         assertEquals(map.get("key1"), result.getFirst());
         assertEquals(map.get("key3"), result.getLast());
     }
@@ -203,9 +193,9 @@ public class HashMapTest {
     public void testIterableOverMapValue() {
 
         // given
-        map.insert("key1", "value1");
-        map.insert("key2", "value2");
-        map.insert("key3", "value3");
+        map.put("key1", "value1");
+        map.put("key2", "value2");
+        map.put("key3", "value3");
         LinkList<String> result = new LinkList<>();
 
         // when

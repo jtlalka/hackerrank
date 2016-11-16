@@ -49,8 +49,8 @@ public class DynamicTable<K, V> implements Iterable<V> {
         return values.toList();
     }
 
-    public int getSize() {
-        return keys.getSize();
+    public int size() {
+        return keys.size();
     }
 
     public boolean isEmpty() {

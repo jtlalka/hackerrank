@@ -23,7 +23,7 @@ public class HashTreeTest {
         // then
         assertNotNull(tree);
         assertTrue(tree.isEmpty());
-        assertEquals(0, tree.getSize());
+        assertEquals(0, tree.size());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class HashTreeTest {
 
         // then
         assertNotNull(tree);
-        assertEquals(1, tree.getSize());
+        assertEquals(1, tree.size());
         assertEquals(value, tree.get(key));
     }
 
@@ -46,13 +46,13 @@ public class HashTreeTest {
     public void testGetSingleValue() {
 
         // given
-        tree.insert("KEY", "VALUE");
+        tree.put("KEY", "VALUE");
 
         // when
         String result = tree.get("KEY");
 
         // then
-        assertEquals(1, tree.getSize());
+        assertEquals(1, tree.size());
         assertEquals("VALUE", result);
     }
 
@@ -63,7 +63,7 @@ public class HashTreeTest {
         String result = tree.get("KEY");
 
         // then
-        assertEquals(0, tree.getSize());
+        assertEquals(0, tree.size());
         assertEquals(null, result);
     }
 
@@ -75,10 +75,10 @@ public class HashTreeTest {
         String key = "Tree";
 
         // when
-        tree.insert(key, value);
+        tree.put(key, value);
 
         // then
-        assertEquals(1, tree.getSize());
+        assertEquals(1, tree.size());
         assertEquals(value, tree.get(key));
     }
 
@@ -90,11 +90,11 @@ public class HashTreeTest {
         String value2 = "BRO";
 
         // when
-        tree.insert("first", value1);
-        tree.insert("second", value2);
+        tree.put("first", value1);
+        tree.put("second", value2);
 
         // then
-        assertEquals(2, tree.getSize());
+        assertEquals(2, tree.size());
         assertEquals(value1, tree.get("first"));
         assertEquals(value2, tree.get("second"));
     }
@@ -107,11 +107,11 @@ public class HashTreeTest {
         String value2 = "BRO";
 
         // when
-        tree.insert("key", value1);
-        tree.insert("key", value2);
+        tree.put("key", value1);
+        tree.put("key", value2);
 
         // then
-        assertEquals(1, tree.getSize());
+        assertEquals(1, tree.size());
         assertEquals(value2, tree.get("key"));
     }
 
@@ -123,11 +123,11 @@ public class HashTreeTest {
         String key2 = "BB";
 
         // when
-        tree.insert(key1, "AAA");
-        tree.insert(key2, "BBB");
+        tree.put(key1, "AAA");
+        tree.put(key2, "BBB");
 
         // then
-        assertEquals(2, tree.getSize());
+        assertEquals(2, tree.size());
         assertEquals("AAA", tree.get(key1));
         assertEquals("BBB", tree.get(key2));
     }
@@ -136,15 +136,15 @@ public class HashTreeTest {
     public void testDeleteValue() {
 
         // given
-        tree.insert("111", "AAA");
-        tree.insert("222", "BBB");
-        tree.insert("333", "CCC");
+        tree.put("111", "AAA");
+        tree.put("222", "BBB");
+        tree.put("333", "CCC");
 
         // when
         tree.delete("222");
 
         // then
-        assertEquals(2, tree.getSize());
+        assertEquals(2, tree.size());
         assertFalse(tree.contains("222"));
     }
 
@@ -152,14 +152,14 @@ public class HashTreeTest {
     public void testDeleteValueWithSameHashCode() {
 
         // given
-        tree.insert("Aa", "AAA");
-        tree.insert("BB", "BBB");
+        tree.put("Aa", "AAA");
+        tree.put("BB", "BBB");
 
         // when
         tree.delete("BB");
 
         // then
-        assertEquals(1, tree.getSize());
+        assertEquals(1, tree.size());
         assertFalse(tree.contains("BB"));
     }
 
@@ -167,61 +167,61 @@ public class HashTreeTest {
     public void testContainsValue() {
 
         // given
-        tree.insert("first", "value1");
-        tree.insert("second", "value2");
+        tree.put("first", "value1");
+        tree.put("second", "value2");
 
         // when
         boolean result = tree.contains("second");
 
         // then
         assertTrue(result);
-        assertEquals(2, tree.getSize());
+        assertEquals(2, tree.size());
     }
 
     @Test
     public void testContainsValueWithSameHash() {
 
         // given
-        tree.insert("Aa", "value1");
-        tree.insert("BB", "value2");
+        tree.put("Aa", "value1");
+        tree.put("BB", "value2");
 
         // when
         boolean result = tree.contains("BB");
 
         // then
         assertTrue(result);
-        assertEquals(2, tree.getSize());
+        assertEquals(2, tree.size());
     }
 
     @Test
     public void testNotContainsInvalidValue() {
 
         // given
-        tree.insert("first", "value1");
-        tree.insert("second", "value2");
+        tree.put("first", "value1");
+        tree.put("second", "value2");
 
         // when
         boolean result = tree.contains("second-invalid");
 
         // then
         assertFalse(result);
-        assertEquals(2, tree.getSize());
+        assertEquals(2, tree.size());
     }
 
     @Test
     public void testConvertTreeToList() {
 
         // given
-        tree.insert("key1", "value1");
-        tree.insert("key2", "value2");
-        tree.insert("key3", "value3");
+        tree.put("key1", "value1");
+        tree.put("key2", "value2");
+        tree.put("key3", "value3");
 
         // when
-        LinkList<String> result = tree.toList();
+        LinkList<String> result = tree.values();
 
         // then
         assertFalse(result.isEmpty());
-        assertEquals(3, result.getSize());
+        assertEquals(3, result.size());
         assertEquals(tree.get("key1"), result.getFirst());
         assertEquals(tree.get("key3"), result.getLast());
     }
@@ -230,9 +230,9 @@ public class HashTreeTest {
     public void testIterableOverTreeValue() {
 
         // given
-        tree.insert("key1", "value1");
-        tree.insert("key2", "value2");
-        tree.insert("key3", "value3");
+        tree.put("key1", "value1");
+        tree.put("key2", "value2");
+        tree.put("key3", "value3");
         LinkList<String> result = new LinkList<>();
 
         // when

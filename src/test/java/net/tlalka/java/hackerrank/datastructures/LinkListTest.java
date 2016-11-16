@@ -45,7 +45,7 @@ public class LinkListTest {
 
         // then
         assertNotNull(list);
-        assertEquals(1, list.getSize());
+        assertEquals(1, list.size());
         assertEquals(value, list.getFirst());
         assertEquals(value, list.getLast());
     }
@@ -61,7 +61,7 @@ public class LinkListTest {
 
         // then
         assertNotNull(list);
-        assertEquals(collection.size(), list.getSize());
+        assertEquals(collection.size(), list.size());
         assertEquals(collection.get(0), list.getFirst());
         assertEquals(collection.get(5), list.getLast());
     }
@@ -76,7 +76,7 @@ public class LinkListTest {
         list.addFirst(value);
 
         // then
-        assertEquals(1, list.getSize());
+        assertEquals(1, list.size());
         assertEquals(value, list.getFirst());
         assertEquals(value, list.getLast());
     }
@@ -88,7 +88,7 @@ public class LinkListTest {
         list.addFirst(nullValue());
 
         // then
-        assertEquals(1, list.getSize());
+        assertEquals(1, list.size());
         assertEquals(null, list.getFirst());
         assertEquals(null, list.getLast());
     }
@@ -104,7 +104,7 @@ public class LinkListTest {
         list.addFirst(newList);
 
         // then
-        assertEquals(7, list.getSize());
+        assertEquals(7, list.size());
         assertEquals(new Integer(6), list.getFirst());
         assertEquals(new Integer(0), list.getLast());
     }
@@ -119,7 +119,7 @@ public class LinkListTest {
         list.addLast(value);
 
         // then
-        assertEquals(1, list.getSize());
+        assertEquals(1, list.size());
         assertEquals(value, list.getFirst());
         assertEquals(value, list.getLast());
     }
@@ -135,7 +135,7 @@ public class LinkListTest {
         list.addLast(newList);
 
         // then
-        assertEquals(7, list.getSize());
+        assertEquals(7, list.size());
         assertEquals(new Integer(0), list.getFirst());
         assertEquals(new Integer(6), list.getLast());
     }
@@ -152,7 +152,7 @@ public class LinkListTest {
         list.addLast(last);
 
         // then
-        assertEquals(2, list.getSize());
+        assertEquals(2, list.size());
         assertEquals(first, list.getFirst());
         assertEquals(last, list.getLast());
     }
@@ -169,7 +169,7 @@ public class LinkListTest {
         list.addLast(last);
 
         // then
-        assertEquals(7, list.getSize());
+        assertEquals(7, list.size());
         assertEquals(new Integer(1), list.getFirst());
         assertEquals(new Integer(7), list.getLast());
     }
@@ -185,7 +185,7 @@ public class LinkListTest {
         list.removeFirst();
 
         // then
-        assertEquals(1, list.getSize());
+        assertEquals(1, list.size());
         assertEquals(new Integer(200), list.getFirst());
         assertEquals(new Integer(200), list.getLast());
     }
@@ -201,7 +201,7 @@ public class LinkListTest {
         list.removeLast();
 
         // then
-        assertEquals(1, list.getSize());
+        assertEquals(1, list.size());
         assertEquals(new Integer(100), list.getFirst());
         assertEquals(new Integer(100), list.getLast());
     }
@@ -232,7 +232,7 @@ public class LinkListTest {
         list.remove(0);
 
         // then
-        assertEquals(2, list.getSize());
+        assertEquals(2, list.size());
         assertEquals(new Integer(2), list.getFirst());
         assertEquals(new Integer(3), list.getLast());
     }
@@ -249,7 +249,7 @@ public class LinkListTest {
         list.remove(2);
 
         // then
-        assertEquals(2, list.getSize());
+        assertEquals(2, list.size());
         assertEquals(new Integer(1), list.getFirst());
         assertEquals(new Integer(2), list.getLast());
     }
@@ -264,7 +264,7 @@ public class LinkListTest {
         list.remove(0);
 
         // then
-        assertEquals(0, list.getSize());
+        assertEquals(0, list.size());
         assertEquals(null, list.getFirst());
         assertEquals(null, list.getLast());
     }
@@ -302,7 +302,7 @@ public class LinkListTest {
         }
 
         // then
-        assertEquals(list.getSize(), result.size());
+        assertEquals(list.size(), result.size());
         assertEquals(list.getFirst(), result.get(0));
         assertEquals(list.getLast(), result.get(2));
     }
@@ -320,7 +320,7 @@ public class LinkListTest {
 
         // then
         assertTrue(list.isEmpty());
-        assertEquals(list.getSize(), result.size());
+        assertEquals(list.size(), result.size());
     }
 
     @Test

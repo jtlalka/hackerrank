@@ -82,7 +82,7 @@ public class DynamicArray<E> implements Iterable<E> {
         return list;
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 

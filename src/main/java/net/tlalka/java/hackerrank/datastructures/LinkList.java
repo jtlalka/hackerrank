@@ -211,7 +211,7 @@ public class LinkList<V> implements Iterable<V> {
         return size--;
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 

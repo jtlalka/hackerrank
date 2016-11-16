@@ -23,7 +23,7 @@ public class DynamicTableTest {
 
         // then
         assertTrue(table.isEmpty());
-        assertEquals(0, table.getSize());
+        assertEquals(0, table.size());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class DynamicTableTest {
 
         // then
         assertFalse(table.isEmpty());
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals(value, table.get(key));
     }
 
@@ -53,7 +53,7 @@ public class DynamicTableTest {
         table.insert(key, value);
 
         // then
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals(value, table.get(key));
     }
 
@@ -70,7 +70,7 @@ public class DynamicTableTest {
         table.insert(key, value2);
 
         // then
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals(value2, table.get(key));
     }
 
@@ -86,7 +86,7 @@ public class DynamicTableTest {
         table.insert(key2, "BBB");
 
         // then
-        assertEquals(2, table.getSize());
+        assertEquals(2, table.size());
         assertEquals("AAA", table.get(key1));
         assertEquals("BBB", table.get(key2));
     }
@@ -101,7 +101,7 @@ public class DynamicTableTest {
         table.insert(key, null);
 
         // then
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals(null, table.get(key));
     }
 
@@ -115,24 +115,8 @@ public class DynamicTableTest {
         table.insert(null, value);
 
         // then
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals(value, table.get(null));
-    }
-
-    @Test
-    public void testInsertTowNullKeyToTable() {
-
-        // given
-        String value1 = "Surname1";
-        String value2 = "Surname2";
-
-        // when
-        table.insert(null, value1);
-        table.insert(null, value2);
-
-        // then
-        assertEquals(1, table.getSize());
-        assertEquals(value2, table.get(null));
     }
 
     @Test
@@ -145,7 +129,7 @@ public class DynamicTableTest {
         table.update("key", "update-value");
 
         // then
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals("update-value", table.get("key"));
     }
 
@@ -159,24 +143,8 @@ public class DynamicTableTest {
         table.update("key", null);
 
         // then
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals(null, table.get("key"));
-    }
-
-    @Test
-    public void testUpdateAndDeleteValue() {
-
-        // given
-        table.insert("key", "init-value");
-        table.insert("key2", "init-value2");
-
-        // when
-        table.update("key", "");
-        table.delete("key");
-
-        // then
-        assertEquals(1, table.getSize());
-        assertEquals("init-value2", table.get("key2"));
     }
 
     @Test
@@ -190,7 +158,7 @@ public class DynamicTableTest {
         table.delete("AAA");
 
         // then
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals("Value1", table.get("BBB"));
     }
 
@@ -205,7 +173,7 @@ public class DynamicTableTest {
         table.delete("BB");
 
         // then
-        assertEquals(1, table.getSize());
+        assertEquals(1, table.size());
         assertEquals("AAA", table.get("Aa"));
     }
 
@@ -229,7 +197,7 @@ public class DynamicTableTest {
 
         // then
         assertFalse(result.isEmpty());
-        assertEquals(3, result.getSize());
+        assertEquals(3, result.size());
         assertEquals(table.get("key1"), result.getFirst());
         assertEquals(table.get("key3"), result.getLast());
     }

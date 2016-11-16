@@ -1,130 +1,99 @@
 package net.tlalka.java.hackerrank.datastructures;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
-public class HashMap<K, V> implements Iterable<V> {
+public class HashMap<Key, Value> implements Iterable<Value> {
 
-    private class Entry {
+    private Node head;
+    private int size;
 
-        private K key;
-
-        private V value;
-
+    private class Node {
+        private Key key;
+        private Value value;
         private int hash;
+        private Node next;
 
-        private Entry next;
-
-        public Entry(K key, V value, int hash) {
+        public Node(Key key, Value value, int hash) {
             this.key = key;
             this.value = value;
             this.hash = hash;
         }
-
-        public Entry getEntry(int hash, K key) {
-            if (isSameKey(hash, key)) {
-                return this;
-            } else if (next != null) {
-                return next.getEntry(hash, key);
-            } else {
-                return null;
-            }
-        }
-
-        public V getValue(int hash, K key) {
-            if (isSameKey(hash, key)) {
-                return value;
-            } else if (next != null) {
-                return next.getValue(hash, key);
-            } else {
-                return null;
-            }
-        }
-
-        public boolean insert(int hash, K key, V value) {
-            if (isSameKey(hash, key)) {
-                this.value = value;
-                return false;
-            } else {
-                return next == null && setupNext(new Entry(key, value, hash)) || next.insert(hash, key, value);
-            }
-        }
-
-        public boolean isSameKey(int hash, K key) {
-            return (this.hash == hash && this.key != null && this.key.equals(key))
-                    || (key == null && this.key == null);
-        }
-
-        private boolean setupNext(Entry entry) {
-            return (next = entry) != null;
-        }
     }
-
-    private Entry head;
-
-    private int size;
 
     public HashMap() {
         this.head = null;
         this.size = 0;
     }
 
-    public HashMap(K key, V value) {
-        this.insert(key, value);
+    public HashMap(Key key, Value value) {
+        this.put(key, value);
     }
 
-    public V get(K key) {
-        return head != null ? head.getValue(getHashCode(key), key) : null;
+    public Value get(Key key) {
+        Node node = get(head, key, getHashCode(key));
+        return node != null ? node.value : null;
     }
 
-    public void insert(K key, V value) {
-        if (head == null) {
-            head = new Entry(key, value, getHashCode(key));
+    private Node get(Node node, Key key, int hash) {
+        while (node != null) {
+            if (compare(node, key, hash)) return node;
+            node = node.next;
+        }
+        return null;
+    }
+
+    public void put(Key key, Value value) {
+        head = put(head, key, value, getHashCode(key));
+    }
+
+    private Node put(Node node, Key key, Value value, int hash) {
+        if (node == null) {
             incrementSize();
+            return new Node(key, value, hash);
         } else {
-            if (head.insert(getHashCode(key), key, value)) {
-                incrementSize();
-            }
+            if (compare(node, key, hash)) node.value = value;
+            else node.next = put(node.next, key, value, hash);
+            return node;
         }
     }
 
-    public void delete(K key) {
-        int hash = getHashCode(key);
-        Entry parent = null;
-        Entry entry = head;
+    public void delete(Key key) {
+        head = delete(head, key, getHashCode(key));
+    }
 
-        while (entry != null) {
-            if (entry.isSameKey(hash, key)) {
-                if (parent == null) {
-                    head = head.next;
-                } else {
-                    parent.next = entry.next;
-                }
-                decrementSize();
-                return;
-            }
-            parent = entry;
-            entry = entry.next;
+    private Node delete(Node node, Key key, int hash) {
+        if (node == null) {
+            return null;
+        } else if (compare(node, key, hash)) {
+            decrementSize();
+            return node.next;
+        } else {
+            return delete(node.next, key, hash);
         }
-        throw new NoSuchElementException("There is no such value.");
     }
 
-    public boolean contains(K key) {
-        return head != null && head.getEntry(getHashCode(key), key) != null;
+    public boolean contains(Key key) {
+        return get(head, key, getHashCode(key)) != null;
     }
 
-    public LinkList<V> toList() {
-        LinkList<V> valueList = new LinkList<>();
-        Entry entry = head;
-
-        while (entry != null) {
-            valueList.addLast(entry.value);
-            entry = entry.next;
-        }
-        return valueList;
+    public LinkList<Value> values() {
+        LinkList<Value> values = new LinkList<>();
+        values(head, values);
+        return values;
     }
 
-    private int getHashCode(K key) {
+    private void values(Node node, LinkList<Value> values) {
+        if (node == null) return;
+        values.addLast(node.value);
+        values(node.next, values);
+    }
+
+    private boolean compare(Node node, Key key, int hash) {
+        return (node.hash == hash && node.key != null && node.key.equals(key))
+                || (node.key == null && key == null);
+    }
+
+    private int getHashCode(Key key) {
         return key != null ? key.hashCode() : 0;
     }
 
@@ -136,7 +105,7 @@ public class HashMap<K, V> implements Iterable<V> {
         return size--;
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
@@ -145,7 +114,7 @@ public class HashMap<K, V> implements Iterable<V> {
     }
 
     @Override
-    public Iterator<V> iterator() {
-        return this.toList().iterator();
+    public Iterator<Value> iterator() {
+        return this.values().iterator();
     }
 }

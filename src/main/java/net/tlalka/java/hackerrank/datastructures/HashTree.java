@@ -4,18 +4,17 @@ import java.util.Iterator;
 
 public class HashTree<K, V> implements Iterable<V> {
 
-    private BinaryTree<HashMap<K, V>> tree;
-
+    private BinarySearchTree<HashMap<K, V>> tree;
     private int size;
 
     public HashTree() {
-        this.tree = new BinaryTree<>();
+        this.tree = new BinarySearchTree<>();
         this.size = 0;
     }
 
     public HashTree(K key, V value) {
         this();
-        this.insert(key, value);
+        this.put(key, value);
     }
 
     public V get(K key) {
@@ -23,32 +22,35 @@ public class HashTree<K, V> implements Iterable<V> {
         return entries != null ? entries.get(key) : null;
     }
 
-    public void insert(K key, V value) {
+    public void put(K key, V value) {
         int hash = getHashCode(key);
         HashMap<K, V> entries = tree.get(hash);
 
         if (entries == null) {
-            tree.insert(hash, new HashMap<>(key, value));
+            tree.put(hash, new HashMap<>(key, value));
             incrementSize();
         } else {
-            int mapSize = entries.getSize();
-            entries.insert(key, value);
+            int mapSize = entries.size();
+            entries.put(key, value);
 
-            if (mapSize < entries.getSize()) {
+            if (mapSize < entries.size()) {
                 incrementSize();
             }
         }
     }
 
     public void delete(K key) {
-        HashMap<K, V> entries = tree.get(getHashCode(key));
+        int hash = getHashCode(key);
+        HashMap<K, V> entries = tree.get(hash);
         if (entries != null) {
-            int mapSize = entries.getSize();
+            int mapSize = entries.size();
             entries.delete(key);
-
-            if (mapSize > entries.getSize()) {
+            if (mapSize > entries.size()) {
                 decrementSize();
             }
+        }
+        if (entries == null || entries.isEmpty()) {
+            tree.delete(hash);
         }
     }
 
@@ -61,11 +63,11 @@ public class HashTree<K, V> implements Iterable<V> {
         return key != null ? key.hashCode() : 0;
     }
 
-    public LinkList<V> toList() {
+    public LinkList<V> values() {
         LinkList<V> valueList = new LinkList<>();
         if (tree != null) {
-            LinkList<HashMap<K, V>> mapList = tree.toList();
-            mapList.forEach(m -> valueList.addLast(m.toList()));
+            LinkList<HashMap<K, V>> mapList = tree.values();
+            mapList.forEach(m -> valueList.addLast(m.values()));
         }
         return valueList;
     }
@@ -78,7 +80,7 @@ public class HashTree<K, V> implements Iterable<V> {
         return size--;
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
@@ -88,6 +90,6 @@ public class HashTree<K, V> implements Iterable<V> {
 
     @Override
     public Iterator<V> iterator() {
-        return this.toList().iterator();
+        return this.values().iterator();
     }
 }

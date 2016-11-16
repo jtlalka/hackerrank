@@ -27,8 +27,8 @@ public class LinkQueue<V> implements Iterable<V> {
         return queue.getFirst();
     }
 
-    public int getSize() {
-        return queue.getSize();
+    public int size() {
+        return queue.size();
     }
 
     public boolean isEmpty() {

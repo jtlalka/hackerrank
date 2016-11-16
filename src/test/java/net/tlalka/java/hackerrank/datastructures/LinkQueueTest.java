@@ -33,7 +33,7 @@ public class LinkQueueTest {
         queue = new LinkQueue<>(Arrays.asList(122L, 123L, 124L));
 
         // then
-        assertEquals(3, queue.getSize());
+        assertEquals(3, queue.size());
         assertEquals(new Long(122L), queue.dequeue());
         assertEquals(new Long(123L), queue.dequeue());
         assertEquals(new Long(124L), queue.dequeue());
@@ -49,7 +49,7 @@ public class LinkQueueTest {
         queue.enqueue(value);
 
         // then
-        assertEquals(1, queue.getSize());
+        assertEquals(1, queue.size());
         assertEquals(value, queue.peek());
     }
 
@@ -63,7 +63,7 @@ public class LinkQueueTest {
         Long result = queue.peek();
 
         // then
-        assertEquals(3, queue.getSize());
+        assertEquals(3, queue.size());
         assertEquals(new Long(122L), result);
     }
 
@@ -77,7 +77,7 @@ public class LinkQueueTest {
         Long result = queue.dequeue();
 
         // then
-        assertEquals(2, queue.getSize());
+        assertEquals(2, queue.size());
         assertEquals(new Long(122L), result);
     }
 }

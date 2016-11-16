@@ -33,7 +33,7 @@ public class LinkStackTest {
         stack = new LinkStack<>(Arrays.asList(122L, 123L, 124L));
 
         // then
-        assertEquals(3, stack.getSize());
+        assertEquals(3, stack.size());
         assertEquals(new Long(124L), stack.pop());
         assertEquals(new Long(123L), stack.pop());
         assertEquals(new Long(122L), stack.pop());
@@ -50,7 +50,7 @@ public class LinkStackTest {
         stack.push(value);
 
         // then
-        assertEquals(2, stack.getSize());
+        assertEquals(2, stack.size());
         assertEquals(value, stack.peek());
     }
 
@@ -64,7 +64,7 @@ public class LinkStackTest {
         Long result = stack.peek();
 
         // then
-        assertEquals(3, stack.getSize());
+        assertEquals(3, stack.size());
         assertEquals(new Long(124L), result);
     }
 
@@ -78,7 +78,7 @@ public class LinkStackTest {
         Long result = stack.pop();
 
         // then
-        assertEquals(2, stack.getSize());
+        assertEquals(2, stack.size());
         assertEquals(new Long(124L), result);
     }
 }

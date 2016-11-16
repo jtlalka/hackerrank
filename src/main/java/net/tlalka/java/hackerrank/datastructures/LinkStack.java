@@ -28,8 +28,8 @@ public class LinkStack<V> implements Iterable<V> {
         return stack.getFirst();
     }
 
-    public int getSize() {
-        return stack.getSize();
+    public int size() {
+        return stack.size();
     }
 
     public boolean isEmpty() {

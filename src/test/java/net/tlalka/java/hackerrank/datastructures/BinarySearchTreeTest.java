@@ -9,13 +9,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class BinaryTreeTest {
+public class BinarySearchTreeTest {
 
-    private BinaryTree<String> tree;
+    private BinarySearchTree<String> tree;
 
     @Before
     public void setup() {
-        tree = new BinaryTree<>();
+        tree = new BinarySearchTree<>();
     }
 
     @Test
@@ -24,36 +24,7 @@ public class BinaryTreeTest {
         // then
         assertNotNull(tree);
         assertTrue(tree.isEmpty());
-    }
-
-    @Test
-    public void testCreateTreeWithInitialValue() {
-
-        // given
-        String value = "Hello";
-
-        // when
-        tree = new BinaryTree<>(1, value);
-
-        // then
-        assertNotNull(tree);
-        assertEquals(1, tree.getSize());
-        assertEquals(value, tree.get(1));
-    }
-
-    @Test
-    public void testGetValueFromTree() {
-
-        // given
-        tree.insert(1, "Value");
-
-        // when
-        String result = tree.get(1);
-
-        // then
-        assertNotNull(tree);
-        assertEquals(1, tree.getSize());
-        assertEquals("Value", result);
+        assertEquals(0, tree.size());
     }
 
     @Test
@@ -72,7 +43,7 @@ public class BinaryTreeTest {
     public void testGetNullValueFromTree() {
 
         // given
-        tree.insert(1, null);
+        tree.put(1, null);
 
         // when
         String result = tree.get(1);
@@ -90,102 +61,95 @@ public class BinaryTreeTest {
         String value = "Hello";
 
         // when
-        tree.insert(5, value);
+        tree.put(5, value);
 
         // then
-        assertEquals(1, tree.getSize());
+        assertEquals(1, tree.size());
         assertEquals(value, tree.get(5));
     }
 
     @Test
-    public void testInsertTwoValues() {
+    public void testInsertTwoValueToSameKey() {
 
         // given
         String value1 = "Hello";
         String value2 = "BRO";
 
         // when
-        tree.insert(1, value1);
-        tree.insert(2, value2);
+        tree.put(5, value1);
+        tree.put(5, value2);
 
         // then
-        assertEquals(2, tree.getSize());
-        assertEquals(value1, tree.get(1));
-        assertEquals(value2, tree.get(2));
-    }
-
-    @Test
-    public void testInsertTwoValueToSameId() {
-
-        // given
-        String value1 = "Hello";
-        String value2 = "BRO";
-
-        // when
-        tree.insert(5, value1);
-        tree.insert(5, value2);
-
-        // then
-        assertEquals(1, tree.getSize());
+        assertEquals(1, tree.size());
         assertEquals(value2, tree.get(5));
     }
 
     @Test
-    public void testContainsId() {
+    public void testDeleteItemFromTree() {
 
         // given
-        tree.insert(124, "SimpleTest");
-        tree.insert(125, "SimpleValue");
+        tree.put(4, "4");
+        tree.put(3, "3");
+        tree.put(1, "1");
+        tree.put(2, "2");
+        tree.put(4, "4!");
+
+        // when
+        tree.delete(3);
+
+        // then
+        assertEquals(1, tree.min());
+        assertEquals(4, tree.max());
+        assertEquals(3, tree.size());
+        assertEquals("4!", tree.get(4));
+    }
+
+    @Test
+    public void testContainsKey() {
+
+        // given
+        tree.put(124, "SimpleTest");
+        tree.put(125, "SimpleValue");
 
         // when
         boolean result = tree.contains(124);
 
         // then
         assertTrue(result);
-        assertEquals(2, tree.getSize());
+        assertEquals(2, tree.size());
     }
 
     @Test
-    public void testNotContainsId() {
+    public void testContainsInvalidKey() {
 
         // given
-        tree.insert(124, "SimpleTest");
-        tree.insert(125, "SimpleValue");
+        tree.put(124, "SimpleTest");
+        tree.put(125, "SimpleValue");
 
         // when
         boolean result = tree.contains(1000);
 
         // then
         assertFalse(result);
-        assertEquals(2, tree.getSize());
-    }
-
-    @Test
-    public void testNotContainsIdInEmptyTree() {
-
-        // when
-        boolean result = tree.contains(1000);
-
-        // then
-        assertFalse(result);
+        assertEquals(2, tree.size());
     }
 
     @Test
     public void testConvertTreeToOrderList() {
 
         // given
-        tree.insert(4, "4");
-        tree.insert(3, "3");
-        tree.insert(1, "1");
-        tree.insert(2, "2");
-        tree.insert(4, "4!");
+        tree.put(4, "4");
+        tree.put(3, "3");
+        tree.put(1, "1");
+        tree.put(2, "2");
+        tree.put(4, "4!");
 
         // when
-        LinkList<String> result = tree.toList();
+        LinkList<String> result = tree.values();
 
         // then
         assertNotNull(result);
-        assertEquals(4, result.getSize());
+        assertEquals(4, result.size());
         assertEquals("1", result.getFirst());
         assertEquals("4!", result.getLast());
     }
@@ -194,11 +158,11 @@ public class BinaryTreeTest {
     public void testIterableOverTree() {
 
         // given
-        tree.insert(4, "4");
-        tree.insert(3, "3");
-        tree.insert(1, "1");
-        tree.insert(2, "2");
-        tree.insert(4, "4!");
+        tree.put(4, "4");
+        tree.put(3, "3");
+        tree.put(1, "1");
+        tree.put(2, "2");
+        tree.put(4, "4!");
         LinkList<String> result = new LinkList<>();
 
         // when
@@ -207,7 +171,7 @@ public class BinaryTreeTest {
         }
 
         // then
-        assertEquals(tree.getSize(), result.getSize());
+        assertEquals(tree.size(), result.size());
         assertEquals(tree.get(1), result.getFirst());
         assertEquals(tree.get(4), result.getLast());
     }
@@ -224,7 +188,24 @@ public class BinaryTreeTest {
         }
 
         // then
-        assertEquals(tree.getSize(), result.getSize());
-        assertEquals(tree.get(1), result.getFirst());
+        assertEquals(tree.size(), result.size());
+        assertEquals(tree.get(0), result.getFirst());
+    }
+
+    @Test
+    public void testGetKeysFromTree() {
+
+        // given
+        tree.put(1, "120");
+        tree.put(2, "130");
+        tree.put(4, "150");
+
+        // when
+        LinkList<Integer> result = tree.keys();
+
+        // then
+        assertEquals(3, result.size());
+        assertEquals(new Integer(1), result.getFirst());
+        assertEquals(new Integer(4), result.getLast());
     }
 }
