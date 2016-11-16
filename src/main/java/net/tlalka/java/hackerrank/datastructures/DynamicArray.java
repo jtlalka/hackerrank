@@ -21,35 +21,15 @@ public class DynamicArray<E> implements Iterable<E> {
         this(DEFAULT_LENGTH, DEFAULT_VECTOR);
     }
 
-    public DynamicArray(Collection<E> elements) {
-        this(elements.size(), DEFAULT_VECTOR);
-        elements.forEach(this::insert);
-    }
-
     public DynamicArray(int length, int vector) {
         this.items = new Object[length];
         this.vector = vector;
         this.size = 0;
     }
 
-    public void insert(E element) {
-        ensureCapacity();
-        this.items[size++] = element;
-    }
-
-    private void ensureCapacity() {
-        if (items.length == size) {
-            checkMaxSize(size + vector);
-            Object[] newArray = new Object[size + vector];
-            System.arraycopy(items, 0, newArray, 0, size);
-            items = newArray;
-        }
-    }
-
-    private void checkMaxSize(int size) {
-        if (size < 0 || size > MAX_LENGTH) {
-            throw new IndexOutOfBoundsException(String.format("Max size for dynamic array is: %d", size));
-        }
+    public DynamicArray(Collection<E> elements) {
+        this(elements.size(), DEFAULT_VECTOR);
+        elements.forEach(this::insert);
     }
 
     @SuppressWarnings("unchecked")
@@ -71,6 +51,26 @@ public class DynamicArray<E> implements Iterable<E> {
     private void checkIndex(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException(String.format("Index %d out of range [0, %d)", index, size));
+        }
+    }
+
+    public void insert(E element) {
+        ensureCapacity();
+        this.items[size++] = element;
+    }
+
+    private void ensureCapacity() {
+        if (items.length == size) {
+            checkMaxSize(size + vector);
+            Object[] newArray = new Object[size + vector];
+            System.arraycopy(items, 0, newArray, 0, size);
+            items = newArray;
+        }
+    }
+
+    private void checkMaxSize(int size) {
+        if (size < 0 || size > MAX_LENGTH) {
+            throw new IndexOutOfBoundsException(String.format("Max size for dynamic array is: %d", size));
         }
     }
 

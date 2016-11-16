@@ -3,6 +3,8 @@ package net.tlalka.java.hackerrank.datastructures;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -58,7 +60,7 @@ public class HashMapTest {
     }
 
     @Test
-    public void testNotGetValueEmptyMap() {
+    public void testNotGetValueFromEmptyMap() {
 
         // when
         String result = map.get("WWW");
@@ -113,11 +115,15 @@ public class HashMapTest {
         assertEquals("BBB", map.get(key2));
     }
 
-    @Test(expected = IndexOutOfBoundsException.class)
-    public void testNotInsertValueWithInvalidKey() {
+    @Test
+    public void testInsertValueWithNullKey() {
 
         // when
         map.insert(null, "World Wide Web");
+
+        // then
+        assertEquals(1, map.getSize());
+        assertEquals("World Wide Web", map.get(null));
     }
 
     @Test
@@ -136,20 +142,11 @@ public class HashMapTest {
         assertNotNull(map.get("BrB"));
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void testNotDeleteValueWithInvalidKey() {
-
-        // given
-        map.insert("WWW", "World Wide Web");
-        map.insert("BrB", "Be right Back");
 
         // when
         map.delete("WW3");
-
-        // then
-        assertFalse(map.isEmpty());
-        assertNotNull(map.get("WWW"));
-        assertNotNull(map.get("BrB"));
     }
 
     @Test
@@ -182,5 +179,43 @@ public class HashMapTest {
         assertFalse(result);
         assertNotNull(map.get("WWW"));
         assertNotNull(map.get("BrB"));
+    }
+
+    @Test
+    public void testConvertMapToList() {
+
+        // given
+        map.insert("key1", "value1");
+        map.insert("key2", "value2");
+        map.insert("key3", "value3");
+
+        // when
+        LinkList<String> result = map.toList();
+
+        // then
+        assertFalse(result.isEmpty());
+        assertEquals(3, result.getSize());
+        assertEquals(map.get("key1"), result.getFirst());
+        assertEquals(map.get("key3"), result.getLast());
+    }
+
+    @Test
+    public void testIterableOverMapValue() {
+
+        // given
+        map.insert("key1", "value1");
+        map.insert("key2", "value2");
+        map.insert("key3", "value3");
+        LinkList<String> result = new LinkList<>();
+
+        // when
+        for (String value : map) {
+            result.addLast(value);
+        }
+
+        // then
+        for (String value : map) {
+            assertEquals(value, result.removeFirst());
+        }
     }
 }

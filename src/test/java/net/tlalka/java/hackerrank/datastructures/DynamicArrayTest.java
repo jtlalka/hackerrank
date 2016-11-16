@@ -70,7 +70,7 @@ public class DynamicArrayTest {
     public void testGetElement() {
 
         // given
-        Integer value1 = anyInt();
+        Integer value1 = 112244;
         array.insert(value1);
 
         // when
@@ -104,7 +104,7 @@ public class DynamicArrayTest {
     }
 
     @Test
-    public void testAppendSingleElement() {
+    public void testInsertSingleElement() {
 
         // given
         Integer value = anyInt();
@@ -118,7 +118,7 @@ public class DynamicArrayTest {
     }
 
     @Test
-    public void testAppendTwoElements() {
+    public void testInsertTwoElements() {
 
         // given
         Integer value1 = anyInt();
@@ -135,10 +135,23 @@ public class DynamicArrayTest {
     }
 
     @Test
-    public void testAppendsListOfElements() {
+    public void testInsertNullElement() {
+
+        // when
+        array.insert(null);
+
+        // then
+        assertEquals(1, array.getSize());
+        assertEquals(null, array.get(0));
+    }
+
+    @Test
+    public void testInsertListOfElements() {
 
         // given
-        List<Integer> list = IntStream.range(0, length + 3 * vector).boxed().collect(Collectors.toList());
+        List<Integer> list = IntStream
+                .range(0, length + 3 * vector)
+                .boxed().collect(Collectors.toList());
 
         // when
         for (Integer value : list) {
@@ -152,7 +165,7 @@ public class DynamicArrayTest {
     }
 
     @Test
-    public void testAppendAndUpdateElements() {
+    public void testInsertAndUpdateElements() {
 
         // given
         Integer value1 = 122;
@@ -160,27 +173,28 @@ public class DynamicArrayTest {
 
         // when
         array.insert(value1);
-        array.update(0, value2);
+        array.insert(value1);
+        array.update(1, value2);
 
         // then
-        assertEquals(1, array.getSize());
-        assertEquals(value2, array.get(0));
+        assertEquals(2, array.getSize());
+        assertEquals(value1, array.get(0));
+        assertEquals(value2, array.get(1));
     }
 
     @Test
     public void testUpdateElement() {
 
         // given
-        Integer newValue = anyInt();
         array.insert(124);
         array.insert(255);
 
         // when
-        array.update(1, newValue);
+        array.update(1, 0);
 
         // then
         assertEquals(2, array.getSize());
-        assertEquals(newValue, array.get(1));
+        assertEquals(new Integer(0), array.get(1));
     }
 
     @Test
@@ -198,6 +212,19 @@ public class DynamicArrayTest {
         assertEquals(2, array.getSize());
         assertEquals(new Integer(124), array.get(0));
         assertEquals(new Integer(512), array.get(1));
+    }
+
+    @Test
+    public void testDeleteLastElement() {
+
+        // given
+        array.insert(512);
+
+        // when
+        array.delete(0);
+
+        // then
+        assertEquals(0, array.getSize());
     }
 
     @Test
@@ -230,7 +257,7 @@ public class DynamicArrayTest {
         // then
         assertFalse(result.isEmpty());
         assertEquals(3, result.getSize());
-        assertEquals(new Integer(5), result.getFirst());
-        assertEquals(new Integer(15), result.getLast());
+        assertEquals(array.get(0), result.getFirst());
+        assertEquals(array.get(2), result.getLast());
     }
 }

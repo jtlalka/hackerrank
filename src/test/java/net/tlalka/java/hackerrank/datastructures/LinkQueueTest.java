@@ -40,7 +40,7 @@ public class LinkQueueTest {
     }
 
     @Test
-    public void testAddElementToQueue() {
+    public void testEnqueueElementToQueue() {
 
         // given
         Long value = 122L;

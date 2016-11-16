@@ -31,6 +31,10 @@ public class DynamicTable<K, V> implements Iterable<V> {
         }
     }
 
+    public void update(K key, V value) {
+        values.update(indexOf(key), value);
+    }
+
     public void delete(K key) {
         int index = indexOf(key);
         keys.remove(index);
@@ -39,6 +43,10 @@ public class DynamicTable<K, V> implements Iterable<V> {
 
     public int indexOf(K key) {
         return keys.indexOf(key);
+    }
+
+    public LinkList<V> toList() {
+        return values.toList();
     }
 
     public int getSize() {

@@ -161,11 +161,8 @@ public class LinkList<V> implements Iterable<V> {
         for (int i = 0; node != null; i++, node = node.next) {
             if (i == index) {
                 Node removed = node.remove();
-                if (removed.previous == null) {
-                    head = removed.next;
-                } else if (removed.next == null) {
-                    tail = removed.previous;
-                }
+                head = removed.equals(head) ? removed.next : head;
+                tail = removed.equals(tail) ? removed.previous : tail;
                 decrementSize();
                 return removed.value;
             }
@@ -185,16 +182,15 @@ public class LinkList<V> implements Iterable<V> {
     }
 
     public int indexOf(V value) {
-        int index = 0;
-        for (V item : this) {
-            if (item == null) {
+        Node node = head;
+        for (int i = 0; node != null; i++, node = node.next) {
+            if (node.value == null) {
                 if (value == null) {
-                    return index;
+                    return i;
                 }
-            } else if (item.equals(value)) {
-                return index;
+            } else if (node.value.equals(value)) {
+                return i;
             }
-            index++;
         }
         throw new NoSuchElementException("There is no such value.");
     }

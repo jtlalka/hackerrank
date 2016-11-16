@@ -6,8 +6,11 @@ public class HashTree<K, V> implements Iterable<V> {
 
     private BinaryTree<HashMap<K, V>> tree;
 
+    private int size;
+
     public HashTree() {
         this.tree = new BinaryTree<>();
+        this.size = 0;
     }
 
     public HashTree(K key, V value) {
@@ -15,20 +18,38 @@ public class HashTree<K, V> implements Iterable<V> {
         this.insert(key, value);
     }
 
+    public V get(K key) {
+        HashMap<K, V> entries = tree.get(getHashCode(key));
+        return entries != null ? entries.get(key) : null;
+    }
+
     public void insert(K key, V value) {
         int hash = getHashCode(key);
         HashMap<K, V> entries = tree.get(hash);
 
-        if (entries != null) {
-            entries.insert(key, value);
-        } else {
+        if (entries == null) {
             tree.insert(hash, new HashMap<>(key, value));
+            incrementSize();
+        } else {
+            int mapSize = entries.getSize();
+            entries.insert(key, value);
+
+            if (mapSize < entries.getSize()) {
+                incrementSize();
+            }
         }
     }
 
-    public V get(K key) {
+    public void delete(K key) {
         HashMap<K, V> entries = tree.get(getHashCode(key));
-        return entries != null ? entries.get(key) : null;
+        if (entries != null) {
+            int mapSize = entries.getSize();
+            entries.delete(key);
+
+            if (mapSize > entries.getSize()) {
+                decrementSize();
+            }
+        }
     }
 
     public boolean contains(K key) {
@@ -49,12 +70,20 @@ public class HashTree<K, V> implements Iterable<V> {
         return valueList;
     }
 
+    private int incrementSize() {
+        return size++;
+    }
+
+    private int decrementSize() {
+        return size--;
+    }
+
     public int getSize() {
-        return this.toList().getSize();
+        return size;
     }
 
     public boolean isEmpty() {
-        return tree.isEmpty();
+        return size == 0;
     }
 
     @Override

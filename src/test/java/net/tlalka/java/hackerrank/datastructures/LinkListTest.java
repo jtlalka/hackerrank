@@ -221,7 +221,7 @@ public class LinkListTest {
     }
 
     @Test
-    public void testRemoveIndexedEntry() {
+    public void testRemoveIndexedEntryFromHead() {
 
         // given
         list.addLast(1);
@@ -235,6 +235,38 @@ public class LinkListTest {
         assertEquals(2, list.getSize());
         assertEquals(new Integer(2), list.getFirst());
         assertEquals(new Integer(3), list.getLast());
+    }
+
+    @Test
+    public void testRemoveIndexedEntryFromTail() {
+
+        // given
+        list.addLast(1);
+        list.addLast(2);
+        list.addLast(3);
+
+        // when
+        list.remove(2);
+
+        // then
+        assertEquals(2, list.getSize());
+        assertEquals(new Integer(1), list.getFirst());
+        assertEquals(new Integer(2), list.getLast());
+    }
+
+    @Test
+    public void testRemoveLastIndexedEntry() {
+
+        // given
+        list.addLast(100);
+
+        // when
+        list.remove(0);
+
+        // then
+        assertEquals(0, list.getSize());
+        assertEquals(null, list.getFirst());
+        assertEquals(null, list.getLast());
     }
 
     @Test(expected = NoSuchElementException.class)

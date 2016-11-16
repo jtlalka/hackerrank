@@ -1,6 +1,7 @@
 package net.tlalka.java.hackerrank.datastructures;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class HashMap<K, V> implements Iterable<V> {
 
@@ -14,29 +15,44 @@ public class HashMap<K, V> implements Iterable<V> {
 
         private Entry next;
 
-        public Entry(K key, V value) {
+        public Entry(K key, V value, int hash) {
             this.key = key;
             this.value = value;
-            this.hash = getHashCode(key);
+            this.hash = hash;
         }
 
-        public V get(int hash, K key) {
-            if (this.hash == hash && this.key.equals(key)) {
+        public Entry getEntry(int hash, K key) {
+            if (isSameKey(hash, key)) {
+                return this;
+            } else if (next != null) {
+                return next.getEntry(hash, key);
+            } else {
+                return null;
+            }
+        }
+
+        public V getValue(int hash, K key) {
+            if (isSameKey(hash, key)) {
                 return value;
             } else if (next != null) {
-                return next.get(hash, key);
+                return next.getValue(hash, key);
             } else {
                 return null;
             }
         }
 
         public boolean insert(int hash, K key, V value) {
-            if (this.hash == hash && this.key.equals(key)) {
+            if (isSameKey(hash, key)) {
                 this.value = value;
                 return false;
             } else {
-                return next == null && setupNext(new Entry(key, value)) || next.insert(hash, key, value);
+                return next == null && setupNext(new Entry(key, value, hash)) || next.insert(hash, key, value);
             }
+        }
+
+        public boolean isSameKey(int hash, K key) {
+            return (this.hash == hash && this.key != null && this.key.equals(key))
+                    || (key == null && this.key == null);
         }
 
         private boolean setupNext(Entry entry) {
@@ -58,45 +74,43 @@ public class HashMap<K, V> implements Iterable<V> {
     }
 
     public V get(K key) {
-        return head != null ? head.get(getHashCode(key), key) : null;
+        return head != null ? head.getValue(getHashCode(key), key) : null;
     }
 
     public void insert(K key, V value) {
-        if (key == null) {
-            throw new IndexOutOfBoundsException("Key cannot be null.");
-        }
         if (head == null) {
-            head = new Entry(key, value);
-            size++;
+            head = new Entry(key, value, getHashCode(key));
+            incrementSize();
         } else {
             if (head.insert(getHashCode(key), key, value)) {
-                size++;
+                incrementSize();
             }
         }
     }
 
     public void delete(K key) {
-        int hashCode = getHashCode(key);
+        int hash = getHashCode(key);
         Entry parent = null;
         Entry entry = head;
 
         while (entry != null) {
-            if (hashCode == entry.hash && entry.key.equals(key)) {
+            if (entry.isSameKey(hash, key)) {
                 if (parent == null) {
                     head = head.next;
                 } else {
                     parent.next = entry.next;
                 }
-                size--;
-                break;
+                decrementSize();
+                return;
             }
             parent = entry;
             entry = entry.next;
         }
+        throw new NoSuchElementException("There is no such value.");
     }
 
     public boolean contains(K key) {
-        return head != null && head.get(getHashCode(key), key) != null;
+        return head != null && head.getEntry(getHashCode(key), key) != null;
     }
 
     public LinkList<V> toList() {
@@ -112,6 +126,14 @@ public class HashMap<K, V> implements Iterable<V> {
 
     private int getHashCode(K key) {
         return key != null ? key.hashCode() : 0;
+    }
+
+    private int incrementSize() {
+        return size++;
+    }
+
+    private int decrementSize() {
+        return size--;
     }
 
     public int getSize() {

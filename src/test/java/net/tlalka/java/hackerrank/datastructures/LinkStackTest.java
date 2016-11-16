@@ -40,16 +40,17 @@ public class LinkStackTest {
     }
 
     @Test
-    public void testAddElementToStack() {
+    public void testPushElementToStack() {
 
         // given
         Long value = 122L;
 
         // when
         stack.push(value);
+        stack.push(value);
 
         // then
-        assertEquals(1, stack.getSize());
+        assertEquals(2, stack.getSize());
         assertEquals(value, stack.peek());
     }
 
