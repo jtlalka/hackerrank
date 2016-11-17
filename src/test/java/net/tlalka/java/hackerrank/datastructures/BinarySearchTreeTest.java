@@ -34,7 +34,6 @@ public class BinarySearchTreeTest {
         String result = tree.get(1);
 
         // then
-        assertNotNull(tree);
         assertNull(result);
         assertTrue(tree.isEmpty());
     }
@@ -49,7 +48,6 @@ public class BinarySearchTreeTest {
         String result = tree.get(1);
 
         // then
-        assertNotNull(tree);
         assertNull(result);
         assertFalse(tree.isEmpty());
     }
@@ -85,7 +83,7 @@ public class BinarySearchTreeTest {
     }
 
     @Test
-    public void testDeleteItemFromTree() {
+    public void testDeleteSingleItem() {
 
         // given
         tree.put(4, "4");
@@ -152,44 +150,6 @@ public class BinarySearchTreeTest {
         assertEquals(4, result.size());
         assertEquals("1", result.getFirst());
         assertEquals("4!", result.getLast());
-    }
-
-    @Test
-    public void testIterableOverTree() {
-
-        // given
-        tree.put(4, "4");
-        tree.put(3, "3");
-        tree.put(1, "1");
-        tree.put(2, "2");
-        tree.put(4, "4!");
-        LinkList<String> result = new LinkList<>();
-
-        // when
-        for (String value : tree) {
-            result.addLast(value);
-        }
-
-        // then
-        assertEquals(tree.size(), result.size());
-        assertEquals(tree.get(1), result.getFirst());
-        assertEquals(tree.get(4), result.getLast());
-    }
-
-    @Test
-    public void testIterableOverEmptyTree() {
-
-        // given
-        LinkList<String> result = new LinkList<>();
-
-        // when
-        for (String value : tree) {
-            result.addLast(value);
-        }
-
-        // then
-        assertEquals(tree.size(), result.size());
-        assertEquals(tree.get(0), result.getFirst());
     }
 
     @Test

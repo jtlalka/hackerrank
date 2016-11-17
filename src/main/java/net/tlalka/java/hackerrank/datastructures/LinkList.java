@@ -6,12 +6,14 @@ import java.util.NoSuchElementException;
 
 public class LinkList<V> implements Iterable<V> {
 
+    private Node head;
+    private Node tail;
+    private int size;
+
     private class Node {
 
         private V value;
-
         private Node previous;
-
         private Node next;
 
         public Node(V value) {
@@ -46,19 +48,13 @@ public class LinkList<V> implements Iterable<V> {
             Node node = previous;
             previous = next;
             next = node;
-
-            if (next != null) {
-                return next.revers();
-            } else {
-                return this;
-            }
+            return (next == null) ? this : next.revers();
         }
     }
 
     private class ListIterator implements Iterator<V> {
 
         private Node node;
-
         private V value;
 
         public ListIterator(Node node) {
@@ -77,12 +73,6 @@ public class LinkList<V> implements Iterable<V> {
             return value;
         }
     }
-
-    private Node head;
-
-    private Node tail;
-
-    private int size;
 
     public LinkList() {
         this.size = 0;

@@ -5,7 +5,6 @@ import java.util.Iterator;
 public class DynamicTable<K, V> implements Iterable<V> {
 
     private LinkList<K> keys;
-
     private DynamicArray<V> values;
 
     public DynamicTable() {

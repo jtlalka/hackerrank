@@ -6,15 +6,11 @@ import java.util.Iterator;
 public class DynamicArray<E> implements Iterable<E> {
 
     private final static int DEFAULT_LENGTH = 100;
-
     private final static int DEFAULT_VECTOR = 100;
-
     private final static int MAX_LENGTH = 2000000;
 
     private Object[] items;
-
     private int vector;
-
     private int size;
 
     public DynamicArray() {

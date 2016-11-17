@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 public class HashTree<K, V> implements Iterable<V> {
 
-    private BinarySearchTree<HashMap<K, V>> tree;
+    private BalancedSearchTree<Integer, HashMap<K, V>> tree;
     private int size;
 
     public HashTree() {
-        this.tree = new BinarySearchTree<>();
+        this.tree = new BalancedSearchTree<>();
         this.size = 0;
     }
 
@@ -42,6 +42,7 @@ public class HashTree<K, V> implements Iterable<V> {
     public void delete(K key) {
         int hash = getHashCode(key);
         HashMap<K, V> entries = tree.get(hash);
+
         if (entries != null) {
             int mapSize = entries.size();
             entries.delete(key);

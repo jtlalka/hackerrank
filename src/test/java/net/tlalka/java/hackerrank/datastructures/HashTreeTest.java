@@ -149,6 +149,36 @@ public class HashTreeTest {
     }
 
     @Test
+    public void testDeleteAllValues() {
+
+        // given
+        tree.put("AA", "AAA");
+        tree.put("BB", "BBB");
+
+        // when
+        tree.delete("AA");
+        tree.delete("BB");
+
+        // then
+        assertEquals(0, tree.size());
+        assertTrue(tree.values().isEmpty());
+    }
+
+    @Test
+    public void testNotDeleteInvalidKey() {
+
+        // given
+        tree.put("AA", "AAA");
+
+        // when
+        tree.delete("BB");
+
+        // then
+        assertEquals(1, tree.size());
+        assertEquals(1, tree.values().size());
+    }
+
+    @Test
     public void testDeleteValueWithSameHashCode() {
 
         // given
