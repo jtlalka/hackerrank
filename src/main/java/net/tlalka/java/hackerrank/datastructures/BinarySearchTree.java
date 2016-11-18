@@ -152,6 +152,20 @@ public class BinarySearchTree<Value> implements Iterable<Value> {
         return size == 0;
     }
 
+    public boolean checkTree() {
+        return isBST(root, Integer.MIN_VALUE, Integer.MAX_VALUE) && isSizeConsistent();
+    }
+
+    private boolean isBST(Node node, int min, int max) {
+        return node == null || min < node.key && node.key < max
+                && isBST(node.left, min, node.key)
+                && isBST(node.right, node.key, max);
+    }
+
+    private boolean isSizeConsistent() {
+        return this.values().size() == this.size();
+    }
+
     @Override
     public Iterator<Value> iterator() {
         return this.values().iterator();

@@ -122,7 +122,7 @@ public class BalancedSearchTreeTest {
     }
 
     @Test
-    public void testDeleteAllItems() {
+    public void testDeleteAllValues() {
 
         // given
         String[] keys = "S E A R C H E X A M P L E".split(" ");

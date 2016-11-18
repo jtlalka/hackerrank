@@ -1,5 +1,6 @@
 package net.tlalka.java.hackerrank.datastructures;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +17,11 @@ public class BinarySearchTreeTest {
     @Before
     public void setup() {
         tree = new BinarySearchTree<>();
+    }
+
+    @After
+    public void check() {
+        assertTrue(tree.checkTree());
     }
 
     @Test
