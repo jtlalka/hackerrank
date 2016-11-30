@@ -1,19 +1,28 @@
-## Mac
-.DS_Store
+# Intellij IDE
+.idea/
+*.iml
 
-## Linux
-*~
+# Ecpipse IDE
+.settings/
+.project
+.classpath
 
-## Windows
+# NetBeans IDE
+nbproject/
+
+# Gradle
+/**/build/
+.gradle/
+
+# Maven
+/**/target/
+
+# Windows OS
 Thumbs.db
 Desktop.ini
 
-## WebStorm
-.idea/*
-*.iml
+# Mac OS
+.DS_Store
 
-## NetBeans
-nbproject/*
-
-## Maven
-target/*
+# Linux OS
+*~
